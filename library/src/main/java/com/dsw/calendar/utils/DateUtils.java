@@ -50,7 +50,6 @@ public class DateUtils {
     public static int getFirstDayWeek(int year, int month){
     	Calendar calendar = Calendar.getInstance();
     	calendar.set(year, month, 1);
-    	Log.d("DateView", "DateView:First:" + calendar.getFirstDayOfWeek());
     	return calendar.get(Calendar.DAY_OF_WEEK);
     }
     
