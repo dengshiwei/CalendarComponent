@@ -73,6 +73,7 @@ public abstract class MonthView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.drawColor(theme.colorMonthView());
         //绘制上一月份
         drawDate(canvas,leftYear,leftMonth,(indexMonth - 1)* width,0);
         //绘制当前月份
@@ -89,7 +90,6 @@ public abstract class MonthView extends View {
         int mMonthDays = DateUtils.getMonthDays(year, month);
         int weekNumber = DateUtils.getFirstDayWeek(year, month);
         int column,row;
-        canvas.drawColor(theme.colorMonthView());
         drawLines(canvas);
         for(int day = 0;day < mMonthDays;day++){
             column = (day+weekNumber - 1) % 7;
