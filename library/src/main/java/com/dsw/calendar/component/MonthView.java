@@ -76,10 +76,10 @@ public abstract class MonthView extends View {
         canvas.drawColor(theme.colorMonthView());
         //绘制上一月份
         drawDate(canvas,leftYear,leftMonth,(indexMonth - 1)* width,0);
-        //绘制当前月份
-        drawDate(canvas,selYear,selMonth,indexMonth * width,0);
         //绘制下一月份
         drawDate(canvas,rightYear,rightMonth,(indexMonth + 1)* width,0);
+        //绘制当前月份
+        drawDate(canvas,selYear,selMonth,indexMonth * width,0);
     }
 
     private void drawDate(Canvas canvas,int year,int month,int startX,int startY){
@@ -139,14 +139,13 @@ public abstract class MonthView extends View {
             case MotionEvent.ACTION_UP:
                 int upX = (int) event.getX();
                 int upY = (int) event.getY();
-                if(upX-downX > 0 && Math.abs(upX-downX) > mTouchSlop){//左滑
-                    onLeftClick();
+                if(upX-downX > 0 && Math.abs(upX-downX) > mTouchSlop*10){//左滑
+                    setLeftDate();
                     indexMonth--;
-                }else if(upX-downX < 0 && Math.abs(upX-downX) > mTouchSlop){//右滑
-                    onRightClick();
+                }else if(upX-downX < 0 && Math.abs(upX-downX) > mTouchSlop*10){//右滑
+                    setRightDate();
                     indexMonth++;
-                }
-                if(Math.abs(upX-downX) < 10 && Math.abs(upY - downY) < 10){//点击事件
+                }else if(Math.abs(upX-downX) < 10 && Math.abs(upY - downY) < 10){//点击事件
                     performClick();
                     doClickAction((upX + downX)/2,(upY + downY)/2);
                 }
@@ -227,7 +226,7 @@ public abstract class MonthView extends View {
         invalidate();
         //执行activity发送过来的点击处理事件
         if(dateClick != null){
-            dateClick.onClickOnDate(selYear,selMonth,selDay);
+            dateClick.onClickOnDate(selYear,selMonth + 1,selDay);
         }
     }
 
@@ -235,6 +234,31 @@ public abstract class MonthView extends View {
      * 左点击，日历向后翻页
      */
     public void onLeftClick(){
+        setLeftDate();
+        forceLayout();
+        measure(0, 0);
+        requestLayout();
+        invalidate();
+        if(monthLisener != null){
+            monthLisener.setTextMonth();
+        }
+    }
+
+    /**
+     * 右点击，日历向前翻页
+     */
+    public void onRightClick(){
+        setRightDate();
+        forceLayout();
+        measure(0, 0);
+        requestLayout();
+        invalidate();
+        if(monthLisener != null){
+            monthLisener.setTextMonth();
+        }
+    }
+
+    private void setLeftDate(){
         int year = selYear;
         int month = selMonth;
         int day = selDay;
@@ -249,21 +273,10 @@ public abstract class MonthView extends View {
             month = month-1;
         }
         setSelectDate(year,month,day);
-        setLeftDate();
-        setRightDate();
-//        forceLayout();
-//        measure(0, 0);
-//        requestLayout();
-//        invalidate();
-        if(monthLisener != null){
-            monthLisener.setTextMonth();
-        }
+        computeDate();
     }
 
-    /**
-     * 右点击，日历向前翻页
-     */
-    public void onRightClick(){
+    private void setRightDate(){
         int year = selYear;
         int month = selMonth;
         int day = selDay;
@@ -278,37 +291,30 @@ public abstract class MonthView extends View {
             month = month + 1;
         }
         setSelectDate(year,month,day);
-        setLeftDate();
-        setRightDate();
-//        forceLayout();
-//        measure(0, 0);
-//        requestLayout();
-//        invalidate();
+        computeDate();
+    }
+
+    private void computeDate(){
+        if(selMonth == 0){
+            leftYear = selYear -1;
+            leftMonth = 11;
+            rightYear = selYear;
+            rightMonth = selMonth + 1;
+        }else if(selMonth == 11){
+            leftYear = selYear;
+            leftMonth = selMonth -1;
+            rightYear = selYear + 1;
+            rightMonth = 0;
+        }else{
+            leftYear = selYear;
+            leftMonth = selMonth - 1;
+            rightYear = selYear;
+            rightMonth = selMonth + 1;
+        }
         if(monthLisener != null){
             monthLisener.setTextMonth();
         }
     }
-
-    private void setLeftDate(){
-        if(selMonth == 0){
-            leftYear = selYear -1;
-            leftMonth = 11;
-        }else{
-            leftYear = selYear;
-            leftMonth = selMonth -1;
-        }
-    }
-
-    private void setRightDate(){
-        if(selMonth == 11){
-            rightYear = selYear + 1;
-            rightMonth = 0;
-        }else{
-            rightYear = selYear;
-            rightMonth = selMonth + 1;
-        }
-    }
-
 
     public void setDateClick(IDateClick dateClick) {
         this.dateClick = dateClick;
