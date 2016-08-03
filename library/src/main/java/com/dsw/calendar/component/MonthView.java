@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Scroller;
 
 import com.dsw.calendar.entity.CalendarInfo;
 import com.dsw.calendar.theme.IDayTheme;
@@ -29,15 +30,21 @@ public abstract class MonthView extends View {
     private IDateClick dateClick;
     protected int currYear,currMonth,currDay;
     protected int selYear,selMonth,selDay;
+    private int leftYear,leftMonth,leftDay;
+    private int rightYear,rightMonth,rightDay;
     protected int [][] daysString;
     protected float columnSize,rowSize;
     private int mTouchSlop;
     protected float density;
+    private int indexMonth;
+    private int width;
     protected List<CalendarInfo> calendarInfos = new ArrayList<CalendarInfo>();
     private int downX = 0,downY = 0;
+    private Scroller mScroller;
     public MonthView(Context context, AttributeSet attrs) {
         super(context, attrs);
         density = getResources().getDisplayMetrics().density;
+        mScroller = new Scroller(context);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         Calendar calendar = Calendar.getInstance();
         currYear = calendar.get(Calendar.YEAR);
@@ -45,6 +52,8 @@ public abstract class MonthView extends View {
         currDay = calendar.get(Calendar.DATE);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         setSelectDate(currYear,currMonth,currDay);
+        setLeftDate();
+        setRightDate();
         createTheme();
         rowSize = theme == null ? 70 : theme.dateHeight();
     }
@@ -56,6 +65,7 @@ public abstract class MonthView extends View {
         if(widthMode == MeasureSpec.AT_MOST){
             widthSize = (int) (300 * density);
         }
+        width = widthSize;
         NUM_ROWS = getMonthRowNumber();
         int heightSize = (int) (NUM_ROWS * rowSize);
         setMeasuredDimension(widthSize, heightSize);
@@ -63,10 +73,17 @@ public abstract class MonthView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        drawDate(canvas,selYear,selMonth);
+        //绘制上一月份
+        drawDate(canvas,leftYear,leftMonth,(indexMonth - 1)* width,0);
+        //绘制当前月份
+        drawDate(canvas,selYear,selMonth,indexMonth * width,0);
+        //绘制下一月份
+        drawDate(canvas,rightYear,rightMonth,(indexMonth + 1)* width,0);
     }
 
-    private void drawDate(Canvas canvas,int year,int month){
+    private void drawDate(Canvas canvas,int year,int month,int startX,int startY){
+        canvas.save();
+        canvas.translate(startX,startY);
         columnSize = getWidth() *1.0F/ NUM_COLUMNS;
         daysString = new int[6][7];
         int mMonthDays = DateUtils.getMonthDays(year, month);
@@ -83,6 +100,7 @@ public abstract class MonthView extends View {
             drawRest(canvas,column,row,daysString[row][column]);
             drawText(canvas,column,row,daysString[row][column]);
         }
+        canvas.restore();
     }
     /**
      * 回执格网线
@@ -102,7 +120,7 @@ public abstract class MonthView extends View {
      * 实例化Theme
      */
     protected abstract void createTheme();
-
+    private int lastMoveX;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int eventCode=  event.getAction();
@@ -112,24 +130,54 @@ public abstract class MonthView extends View {
                 downY = (int) event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                int dx = (int) (downX - event.getX());
+                if(Math.abs(dx) > mTouchSlop){
+                    int moveX = dx + lastMoveX;
+                    smoothScrollTo(moveX, 0);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 int upX = (int) event.getX();
                 int upY = (int) event.getY();
                 if(upX-downX > 0 && Math.abs(upX-downX) > mTouchSlop){//左滑
                     onLeftClick();
+                    indexMonth--;
                 }else if(upX-downX < 0 && Math.abs(upX-downX) > mTouchSlop){//右滑
                     onRightClick();
+                    indexMonth++;
                 }
                 if(Math.abs(upX-downX) < 10 && Math.abs(upY - downY) < 10){//点击事件
                     performClick();
                     doClickAction((upX + downX)/2,(upY + downY)/2);
                 }
+                lastMoveX = indexMonth * width;
+                smoothScrollTo(width * indexMonth, 0);
                 break;
         }
         return true;
     }
 
+    //调用此方法滚动到目标位置
+    public void smoothScrollTo(int fx, int fy) {
+        int dx = fx - mScroller.getFinalX();
+        int dy = fy - mScroller.getFinalY();
+        smoothScrollBy(dx, dy);
+    }
+
+    //调用此方法设置滚动的相对偏移
+    public void smoothScrollBy(int dx, int dy) {
+        //设置mScroller的滚动偏移量
+        mScroller.startScroll(mScroller.getFinalX(), mScroller.getFinalY(), dx, dy,500);
+        invalidate();//这里必须调用invalidate()才能保证computeScroll()会被调用，否则不一定会刷新界面，看不到滚动效果
+    }
+
+    @Override
+    public void computeScroll() {
+        if(mScroller.computeScrollOffset()){
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            invalidate();
+        }
+    }
 
     /**
      * 设置选中的月份
@@ -201,10 +249,12 @@ public abstract class MonthView extends View {
             month = month-1;
         }
         setSelectDate(year,month,day);
-        forceLayout();
-        measure(0, 0);
-        requestLayout();
-        invalidate();
+        setLeftDate();
+        setRightDate();
+//        forceLayout();
+//        measure(0, 0);
+//        requestLayout();
+//        invalidate();
         if(monthLisener != null){
             monthLisener.setTextMonth();
         }
@@ -228,14 +278,37 @@ public abstract class MonthView extends View {
             month = month + 1;
         }
         setSelectDate(year,month,day);
-        forceLayout();
-        measure(0, 0);
-        requestLayout();
-        invalidate();
+        setLeftDate();
+        setRightDate();
+//        forceLayout();
+//        measure(0, 0);
+//        requestLayout();
+//        invalidate();
         if(monthLisener != null){
             monthLisener.setTextMonth();
         }
     }
+
+    private void setLeftDate(){
+        if(selMonth == 0){
+            leftYear = selYear -1;
+            leftMonth = 11;
+        }else{
+            leftYear = selYear;
+            leftMonth = selMonth -1;
+        }
+    }
+
+    private void setRightDate(){
+        if(selMonth == 11){
+            rightYear = selYear + 1;
+            rightMonth = 0;
+        }else{
+            rightYear = selYear;
+            rightMonth = selMonth + 1;
+        }
+    }
+
 
     public void setDateClick(IDateClick dateClick) {
         this.dateClick = dateClick;
