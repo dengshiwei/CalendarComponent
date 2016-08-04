@@ -20,10 +20,10 @@ public class GridMonthView extends MonthView {
     }
 
     @Override
-    protected void drawLines(Canvas canvas) {
+    protected void drawLines(Canvas canvas,int rowsCount) {
         int rightX = getWidth();
         int BottomY = getHeight();
-        int rowCount = getMonthRowNumber();
+        int rowCount = rowsCount;
         int columnCount = 7;
         Path path;
         float startX = 0;
