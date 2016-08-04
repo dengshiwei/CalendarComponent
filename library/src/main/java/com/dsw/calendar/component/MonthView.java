@@ -66,7 +66,7 @@ public abstract class MonthView extends View {
             widthSize = (int) (300 * density);
         }
         width = widthSize;
-        NUM_ROWS = getMonthRowNumber();
+        NUM_ROWS = 6; //本来是想根据每月的行数，动态改变控件高度，现在为了使滑动的左右两边效果相同，不适用getMonthRowNumber();
         int heightSize = (int) (NUM_ROWS * rowSize);
         setMeasuredDimension(widthSize, heightSize);
     }
@@ -85,12 +85,14 @@ public abstract class MonthView extends View {
     private void drawDate(Canvas canvas,int year,int month,int startX,int startY){
         canvas.save();
         canvas.translate(startX,startY);
+        NUM_ROWS =  getMonthRowNumber(year,month);
         columnSize = getWidth() *1.0F/ NUM_COLUMNS;
+        rowSize = getHeight() * 1.0F / NUM_ROWS;
         daysString = new int[6][7];
         int mMonthDays = DateUtils.getMonthDays(year, month);
         int weekNumber = DateUtils.getFirstDayWeek(year, month);
         int column,row;
-        drawLines(canvas);
+        drawLines(canvas,NUM_ROWS);
         for(int day = 0;day < mMonthDays;day++){
             column = (day+weekNumber - 1) % 7;
             row = (day+weekNumber - 1) / 7;
@@ -106,7 +108,7 @@ public abstract class MonthView extends View {
      * 回执格网线
      * @param canvas
      */
-    protected abstract void drawLines(Canvas canvas);
+    protected abstract void drawLines(Canvas canvas,int rowsCount);
 
     protected abstract void drawBG(Canvas canvas,int column,int row,int day);
 
@@ -189,9 +191,9 @@ public abstract class MonthView extends View {
         selDay = day;
     }
 
-    protected int getMonthRowNumber(){
-        int monthDays = DateUtils.getMonthDays(selYear, selMonth);
-        int weekNumber = DateUtils.getFirstDayWeek(selYear, selMonth);
+    protected int getMonthRowNumber(int year,int month){
+        int monthDays = DateUtils.getMonthDays(year, month);
+        int weekNumber = DateUtils.getFirstDayWeek(year, month);
         return (monthDays + weekNumber - 1) % 7 == 0 ? (monthDays + weekNumber - 1) / 7 : (monthDays + weekNumber - 1) / 7 + 1;
     }
 
@@ -235,9 +237,6 @@ public abstract class MonthView extends View {
      */
     public void onLeftClick(){
         setLeftDate();
-        forceLayout();
-        measure(0, 0);
-        requestLayout();
         invalidate();
         if(monthLisener != null){
             monthLisener.setTextMonth();
@@ -249,9 +248,6 @@ public abstract class MonthView extends View {
      */
     public void onRightClick(){
         setRightDate();
-        forceLayout();
-        measure(0, 0);
-        requestLayout();
         invalidate();
         if(monthLisener != null){
             monthLisener.setTextMonth();
