@@ -1,39 +1,40 @@
 package com.dsw.calendarcomponent;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
-
-import com.dsw.calendar.component.GridMonthView;
-import com.dsw.calendar.component.MonthView;
-import com.dsw.calendar.entity.CalendarInfo;
-import com.dsw.calendar.views.GridCalendarView;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends Activity {
-    private GridCalendarView gridCalendarView;
+    private ListView listView;
+    private String[] items = new String[]{"GridCalendarView","CircleCalendarView"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<CalendarInfo> list = new ArrayList<CalendarInfo>();
-        list.add(new CalendarInfo(2016,7,4,"￥1200"));
-        list.add(new CalendarInfo(2016,7,6,"￥1200"));
-        list.add(new CalendarInfo(2016,7,12,"￥1200"));
-        list.add(new CalendarInfo(2016,7,16,"￥1200"));list.add(new CalendarInfo(2016,7,28,"￥1200"));
-        list.add(new CalendarInfo(2016,7,1,"￥1200",1));
-        list.add(new CalendarInfo(2016,7,11,"￥1200",1));
-        list.add(new CalendarInfo(2016,7,19,"￥1200",2));
-        list.add(new CalendarInfo(2016,7,21,"￥1200",1));
-        gridCalendarView = (GridCalendarView) findViewById(R.id.gridMonthView);
-        gridCalendarView.setCalendarInfos(list);
-        gridCalendarView.setDateClick(new MonthView.IDateClick(){
-
+        listView = (ListView) findViewById(R.id.listView);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
+                android.R.id.text1,items);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClickOnDate(int year, int month, int day) {
-                Toast.makeText(MainActivity.this,"点击了" +  year + "-" + month + "-" + day,Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
+                switch (position){
+                    case 0:
+                        intent = new Intent(MainActivity.this,GridCalendarActivity.class);
+                        break;
+                    case 1:
+                        intent = new Intent(MainActivity.this,CircleCalendarActivity.class);
+                        break;
+                    default:
+                        break;
+                }
+                if(null != intent)
+                startActivity(intent);
             }
         });
     }
