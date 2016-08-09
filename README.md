@@ -10,6 +10,9 @@
 * 支持班、休标志的绘制。
 * 支持左右滑动进行月份的切换。（暂时有问题）
 
+#####1.0.1 release
+* 新增圆形日历样式。
+
 ## 项目集成
 #####方式一、
 
@@ -58,3 +61,8 @@ CalendarInfo类字段示意：
 效果图：
 
 ![gridcalendarview](https://github.com/dengshiwei/CalendarComponent/blob/master/GridCalendarView.gif?raw=true)
+
+#####二、CircleCalendarView，格网日历控件
+使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式。
+
+![CircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/CircleCalendarView.gif?raw=true)
