@@ -127,7 +127,7 @@ public class GridMonthView extends MonthView {
 
                 paint.setTextSize(theme.sizeDesc());
                 int priceX = (int) (columnSize * column + (columnSize - paint.measureText(des))/2);
-                int priceY = (int) (startY + 10);
+                int priceY = (int) (startY + 15);
                 canvas.drawText(des, priceX, priceY, paint);
             }else{//des为空的时候
                 paint.setColor(theme.colorSelectDay());
@@ -146,7 +146,7 @@ public class GridMonthView extends MonthView {
                 paint.setTextSize(theme.sizeDesc());
                 paint.setColor(theme.colorDesc());
                 int priceX = (int) (columnSize * column + Math.abs((columnSize - paint.measureText(des))/2));
-                int priceY = (int) (startY + 10);
+                int priceY = (int) (startY + 15);
                 canvas.drawText(des, priceX, priceY, paint);
             }else{//des为空
                 paint.setColor(theme.colorWeekday());
