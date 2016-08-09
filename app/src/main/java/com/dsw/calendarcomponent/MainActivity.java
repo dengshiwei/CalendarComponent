@@ -8,9 +8,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.dsw.calendar.views.ADCircleCalendarView;
+
 public class MainActivity extends Activity {
     private ListView listView;
-    private String[] items = new String[]{"GridCalendarView","CircleCalendarView"};
+    private String[] items = new String[]{"GridCalendarView","CircleCalendarView","ADCircleCalendarView"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,9 @@ public class MainActivity extends Activity {
                         break;
                     case 1:
                         intent = new Intent(MainActivity.this,CircleCalendarActivity.class);
+                        break;
+                    case 2:
+                        intent = new Intent(MainActivity.this, ADCircleCalendarActivity.class);
                         break;
                     default:
                         break;

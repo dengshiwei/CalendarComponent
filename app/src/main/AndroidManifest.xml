@@ -18,6 +18,7 @@
         <activity android:name=".GridCalendarActivity">
         </activity>
         <activity android:name=".CircleCalendarActivity" />
+        <activity android:name=".ADCircleCalendarActivity" />
     </application>
 
 </manifest>
