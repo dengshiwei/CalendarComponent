@@ -17,7 +17,7 @@
 * 新增ADCircleCalendarView日历样式。
 
 ## 项目集成
-#####方式一、
+#####方式一、直接引用项目library类库。
 
 
 ## 简单使用
@@ -74,3 +74,24 @@ CalendarInfo类字段示意：
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式，类似于华为p6的系统日历。
 
 ![ADCircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/ADCircleCalendarView.gif?raw=true)
+
+## 高级进阶
+该项目的核心是MonthView基类的实现，该基类中实现了多数的业务数据处理以及滑动效果的开发。如果你想使用定制一些日历效果，你可以继承MonthView，然后重写它的相关方法。
+
+* drawLines(Canvas canvas,int rowsCount);绘制格网线
+* drawBG(Canvas canvas,int column,int row,int day);绘制选中背景色
+* drawDecor(Canvas canvas,int column,int row,int day);绘制事务标识符号
+* drawRest(Canvas canvas,int column,int row,int day);绘制‘班’、‘休’
+* drawText(Canvas canvas,int column,int row,int day);绘制日期
+
+在开发设计时，我提取了这四部分的业务逻辑。你可以重写这四个方法进行定制，实现个性化效果。参数说明：
+
+* Canvas canvas：绘制的画布；
+* int rowsCount：当前年月日历绘制需要的行数
+* int column：列号，以0开始；
+* int row：行号，以0开始
+* int day：需要绘制的日期号，从月的1号开始
+
+完成主要的日期绘制，就完成了大部分的日历绘制，然后你可自行使用实现星期-——星期日的绘制，比如你使用TextView结合LinearLayout实现。在这里我通过WeekView进行实现，你可以通过实现IWeekTheme来实现它的样式调整，最后通过组合实现效果。
+
+基本的思路就是这样，欢迎大家给予意见。
