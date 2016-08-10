@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
+import com.dsw.calendar.entity.CalendarInfo;
 import com.dsw.calendar.theme.ADCircleDayTheme;
 
 /**
@@ -62,14 +63,39 @@ public class ADCircleMonthView extends MonthView {
             paint.setColor(theme.colorDecor());
             paint.setStyle(Paint.Style.FILL);
             float circleX = (float) (columnSize * column +	columnSize*0.5);
-            float circleY = (float) (rowSize * row + rowSize*0.1);
+            float circleY = (float) (rowSize * row + rowSize * 0.25);
+            if(day == selDay){//选中日期无事务
+                circleY = (float) (rowSize * row + rowSize * 0.1);
+            }
             canvas.drawCircle(circleX, circleY, theme.sizeDecor(), paint);
         }
     }
 
     @Override
     protected void drawRest(Canvas canvas, int column, int row, int day) {
-
+        if(calendarInfos != null && calendarInfos.size() > 0){
+            float radius = columnSize < (rowSize * 0.6) ? columnSize / 2 : (float)(rowSize * 0.6) / 2;
+            for(CalendarInfo calendarInfo : calendarInfos){
+                if(calendarInfo.day == day && calendarInfo.year == selYear && calendarInfo.month == selMonth + 1){
+                    float restX = columnSize * column + (columnSize + paint.measureText(day+""))/2;
+                    float restY = rowSize * row + rowSize/2 - (paint.ascent() + paint.descent())/2;
+                    if(day == selDay){
+                        restX = columnSize * column + columnSize/2 + radius;
+                    }
+                    paint.setStyle(Paint.Style.FILL);
+                    if(calendarInfo.rest == 2){//班
+                        paint.setColor(theme.colorWork());
+                        paint.setTextSize(theme.sizeDesc());
+                        paint.measureText("班");
+                        canvas.drawText("班", restX, restY, paint);
+                    }else if(calendarInfo.rest == 1){//休息
+                        paint.setColor(theme.colorRest());
+                        paint.setTextSize(theme.sizeDesc());
+                        canvas.drawText("休", restX, restY, paint);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -87,9 +113,9 @@ public class ADCircleMonthView extends MonthView {
 
                 paint.setColor(theme.colorWeekday());
                 paint.setTextSize(theme.sizeDesc());
-                int priceX = (int) (columnSize * column + (columnSize - paint.measureText(des))/2);
-                int priceY = (int) (rowSize * row + rowSize*0.9 - (paint.ascent() + paint.descent())/2);
-                canvas.drawText(des, priceX, priceY, paint);
+                int desX = (int) (columnSize * column + (columnSize - paint.measureText(des))/2);
+                int desY = (int) (rowSize * row + rowSize*0.9 - (paint.ascent() + paint.descent())/2);
+                canvas.drawText(des, desX, desY, paint);
             }else{//des为空的时候
                 paint.setColor(theme.colorSelectDay());
                 canvas.drawText(day+"", startX, startY, paint);
@@ -106,9 +132,9 @@ public class ADCircleMonthView extends MonthView {
 
                 paint.setTextSize(theme.sizeDesc());
                 paint.setColor(theme.colorDesc());
-                int priceX = (int) (columnSize * column + Math.abs((columnSize - paint.measureText(des))/2));
-                int priceY = (int) (startY + 20);
-                canvas.drawText(des, priceX, priceY, paint);
+                int desX = (int) (columnSize * column + Math.abs((columnSize - paint.measureText(des))/2));
+                int desY = (int) (startY + 20);
+                canvas.drawText(des, desX, desY, paint);
             }else{//des为空
                 paint.setColor(theme.colorWeekday());
                 canvas.drawText(day+"", startX, startY, paint);
