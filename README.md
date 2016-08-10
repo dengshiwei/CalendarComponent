@@ -72,3 +72,5 @@ CalendarInfo类字段示意：
 
 #####三、ADCircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式，类似于华为p6的系统日历。
+
+![ADCircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/ADCircleCalendarView.gif?raw=true)
