@@ -15,12 +15,48 @@
 
 #####1.0.2 release
 * 新增ADCircleCalendarView日历样式。
+* 新增平滑模式
 
 ## 项目集成
 #####方式一、直接引用项目library类库。
 
 
 ## 简单使用
+
+####样式设置
+日历界面的样式继承IDayTheme，通过实现IDayTheme中的方法来实现日历控件样式的更改。
+* colorSelectBG：选中日期的背景色
+* colorSelectDay：选中日期的颜色
+* colorToday：今天日期颜色
+* colorMonthView：日历的整个背景色
+* colorWeekday：工作日的颜色
+* colorWeekend：周末的颜色
+* colorDecor：事务装饰颜色
+* colorRest：假日颜色
+* colorWork：班颜色
+* colorDesc：描述文字颜色
+* sizeDay：日期大小
+* sizeDesc：描述文字大小
+* sizeDecor：装饰器大小
+* dateHeight：日期高度
+* colorLine：线条颜色
+* smoothMode：滑动模式
+
+周的样式设置通过继承实现IWeekTheme。
+* colorTopLinen：顶部线颜色
+* colorBottomLine：底部颜色
+* colorWeekday：工作日颜色
+* colorWeekend：周末颜色
+* colorWeekView：星期的整个背景色
+* sizeLine:线的宽度
+* sizeText:字体大小
+
+使用自定义样式就需要分别继承实现日期和周的样式，然后通过方法进行设置。
+	//设置日期日历界面的样式
+    calendarView.setDayTheme(new IDayTheme());
+    //设置星期的界面样式
+    calendarView.setWeekTheme(new IWeekTheme() {);
+
 #####一、GridCalendarView，格网日历控件
 当在你的项目中引入了CalendarComponent库后，你就可以像使用普通控件一样使用库中的日历控件。GridCalendarView是一个绘制有格网线的日历控件，支持日历的左右滑动以及手动翻页，支持日历的事务的显示、以及用户定制日历的主题样式。具体使用如下：
 
@@ -62,18 +98,27 @@ CalendarInfo类字段示意：
     gridCalendarView.setWeekTheme(new IWeekTheme() {);
     
 效果图：
-
+滑动模式一：
 ![gridcalendarview](https://github.com/dengshiwei/CalendarComponent/blob/master/GridCalendarView.gif?raw=true)
+
+滑动模式二：
+![gridcalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/GridCalendarView_Mode1.gif?raw=true)
 
 #####二、CircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式。
-
+滑动模式一：
 ![CircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/CircleCalendarView.gif?raw=true)
+
+滑动模式二：
+![circlecalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/CircleCalendarView_Mode1.gif?raw=true)
 
 #####三、ADCircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式，类似于华为p6的系统日历。
-
+滑动模式一：
 ![ADCircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/ADCircleCalendarView.gif?raw=true)
+
+滑动模式二：
+![adcirclecalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/ADCircleCalendarView_Mode1.gif?raw=true)
 
 ## 高级进阶
 该项目的核心是MonthView基类的实现，该基类中实现了多数的业务数据处理以及滑动效果的开发。如果你想使用定制一些日历效果，你可以继承MonthView，然后重写它的相关方法。
