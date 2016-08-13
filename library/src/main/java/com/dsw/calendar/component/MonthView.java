@@ -41,6 +41,7 @@ public abstract class MonthView extends View {
     protected List<CalendarInfo> calendarInfos = new ArrayList<CalendarInfo>();
     private int downX = 0,downY = 0;
     private Scroller mScroller;
+    private int smoothMode;
     public MonthView(Context context, AttributeSet attrs) {
         super(context, attrs);
         density = getResources().getDisplayMetrics().density;
@@ -56,6 +57,7 @@ public abstract class MonthView extends View {
         setRightDate();
         createTheme();
         rowSize = theme == null ? 70 : theme.dateHeight();
+        smoothMode = theme == null ? 0 : theme.smoothMode();
     }
 
     @Override
@@ -74,6 +76,10 @@ public abstract class MonthView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(theme.colorMonthView());
+        if(smoothMode == 1){
+            drawDate(canvas,selYear,selMonth,indexMonth * width,0);
+            return;
+        }
         //绘制上一月份
         drawDate(canvas,leftYear,leftMonth,(indexMonth - 1)* width,0);
         //绘制下一月份
@@ -132,6 +138,7 @@ public abstract class MonthView extends View {
                 downY = (int) event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                if(smoothMode == 1)break;
                 int dx = (int) (downX - event.getX());
                 if(Math.abs(dx) > mTouchSlop){
                     int moveX = dx + lastMoveX;
@@ -142,17 +149,27 @@ public abstract class MonthView extends View {
                 int upX = (int) event.getX();
                 int upY = (int) event.getY();
                 if(upX-downX > 0 && Math.abs(upX-downX) > mTouchSlop*10){//左滑
-                    setLeftDate();
-                    indexMonth--;
+                    if(smoothMode == 0){
+                        setLeftDate();
+                        indexMonth--;
+                    }else{
+                        onLeftClick();
+                    }
                 }else if(upX-downX < 0 && Math.abs(upX-downX) > mTouchSlop*10){//右滑
-                    setRightDate();
-                    indexMonth++;
+                    if(smoothMode == 0){
+                        setRightDate();
+                        indexMonth++;
+                    }else{
+                        onRightClick();
+                    }
                 }else if(Math.abs(upX-downX) < 10 && Math.abs(upY - downY) < 10){//点击事件
                     performClick();
                     doClickAction((upX + downX)/2,(upY + downY)/2);
                 }
-                lastMoveX = indexMonth * width;
-                smoothScrollTo(width * indexMonth, 0);
+                if(smoothMode == 0) {
+                    lastMoveX = indexMonth * width;
+                    smoothScrollTo(width * indexMonth, 0);
+                }
                 break;
         }
         return true;
