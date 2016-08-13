@@ -80,4 +80,9 @@ public class DefaultDayTheme implements IDayTheme {
     public int colorLine() {
         return Color.parseColor("#CBCBCB");
     }
+
+    @Override
+    public int smoothMode() {
+        return 0;
+    }
 }
