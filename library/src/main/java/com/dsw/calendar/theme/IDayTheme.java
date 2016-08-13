@@ -92,4 +92,10 @@ public interface IDayTheme {
      * @return
      */
     public int colorLine();
+
+    /**
+     * 滑动模式
+     * @return
+     */
+    public int smoothMode();
 }
