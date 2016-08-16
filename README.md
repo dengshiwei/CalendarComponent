@@ -98,26 +98,35 @@ CalendarInfo类字段示意：
     gridCalendarView.setWeekTheme(new IWeekTheme() {);
     
 效果图：
+
 滑动模式一：
+
 ![gridcalendarview](https://github.com/dengshiwei/CalendarComponent/blob/master/GridCalendarView.gif?raw=true)
 
 滑动模式二：
+
 ![gridcalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/GridCalendarView_Mode1.gif?raw=true)
 
 #####二、CircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式。
+
 滑动模式一：
+
 ![CircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/CircleCalendarView.gif?raw=true)
 
 滑动模式二：
+
 ![circlecalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/CircleCalendarView_Mode1.gif?raw=true)
 
 #####三、ADCircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式，类似于华为p6的系统日历。
+
 滑动模式一：
+
 ![ADCircleCalendarView](https://github.com/dengshiwei/CalendarComponent/blob/master/ADCircleCalendarView.gif?raw=true)
 
 滑动模式二：
+
 ![adcirclecalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/ADCircleCalendarView_Mode1.gif?raw=true)
 
 ## 高级进阶
