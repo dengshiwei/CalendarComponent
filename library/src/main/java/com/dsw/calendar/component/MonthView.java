@@ -104,9 +104,9 @@ public abstract class MonthView extends View {
             row = (day+weekNumber - 1) / 7;
             daysString[row][column]=day + 1;
             drawBG(canvas,column,row,daysString[row][column]);
-            drawDecor(canvas,column,row,daysString[row][column]);
-            drawRest(canvas,column,row,daysString[row][column]);
-            drawText(canvas,column,row,daysString[row][column]);
+            drawDecor(canvas,column,row,year,month,daysString[row][column]);
+            drawRest(canvas,column,row,year,month,daysString[row][column]);
+            drawText(canvas,column,row,year,month,daysString[row][column]);
         }
         canvas.restore();
     }
@@ -118,11 +118,11 @@ public abstract class MonthView extends View {
 
     protected abstract void drawBG(Canvas canvas,int column,int row,int day);
 
-    protected abstract void drawDecor(Canvas canvas,int column,int row,int day);
+    protected abstract void drawDecor(Canvas canvas,int column,int row,int year,int month,int day);
 
-    protected abstract void drawRest(Canvas canvas,int column,int row,int day);
+    protected abstract void drawRest(Canvas canvas,int column,int row,int year,int month,int day);
 
-    protected abstract void drawText(Canvas canvas,int column,int row,int day);
+    protected abstract void drawText(Canvas canvas,int column,int row,int year,int month,int day);
 
     /**
      * 实例化Theme
@@ -223,10 +223,10 @@ public abstract class MonthView extends View {
      * @param day
      * @return
      */
-    protected String iscalendarInfo(int day){
+    protected String iscalendarInfo(int year,int month,int day){
         if(calendarInfos == null || calendarInfos.size() == 0)return "";
         for(CalendarInfo calendarInfo : calendarInfos){
-            if(calendarInfo.day == day && calendarInfo.month == selMonth + 1 && calendarInfo.year == selYear){
+            if(calendarInfo.day == day && calendarInfo.month == month + 1 && calendarInfo.year == year){
                 return calendarInfo.des;
             }
         }
@@ -281,7 +281,9 @@ public abstract class MonthView extends View {
         }else if(DateUtils.getMonthDays(year, month) == day){
             //如果当前日期为该月最后一点，当向前推的时候，就需要改变选中的日期
             month = month-1;
-            day = DateUtils.getMonthDays(year, month);
+            if(day - DateUtils.getMonthDays(year, month) > 0){//向左滑动，当前月天数小于左边的
+                day = DateUtils.getMonthDays(year, month);
+            }
         }else{
             month = month-1;
         }
@@ -299,7 +301,9 @@ public abstract class MonthView extends View {
         }else if(DateUtils.getMonthDays(year, month) == day){
             //如果当前日期为该月最后一点，当向前推的时候，就需要改变选中的日期
             month = month + 1;
-            day = DateUtils.getMonthDays(year, month);
+            if(day - DateUtils.getMonthDays(year, month) > 0){//向左滑动，当前月天数小于左边的
+                day = DateUtils.getMonthDays(year, month);
+            }
         }else{
             month = month + 1;
         }

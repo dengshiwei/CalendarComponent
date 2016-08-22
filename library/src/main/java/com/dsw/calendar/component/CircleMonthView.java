@@ -53,9 +53,9 @@ public class CircleMonthView extends MonthView {
     }
 
     @Override
-    protected void drawDecor(Canvas canvas, int column, int row, int day) {
+    protected void drawDecor(Canvas canvas, int column, int row, int year,int month,int day) {
         if(calendarInfos != null && calendarInfos.size() >0){
-            if(TextUtils.isEmpty(iscalendarInfo(day)))return;
+            if(TextUtils.isEmpty(iscalendarInfo(year,month,day)))return;
             paint.setColor(theme.colorDecor());
             paint.setStyle(Paint.Style.FILL);
             float circleX = (float) (columnSize * column +	columnSize*0.8);
@@ -65,17 +65,17 @@ public class CircleMonthView extends MonthView {
     }
 
     @Override
-    protected void drawRest(Canvas canvas, int column, int row, int day) {
+    protected void drawRest(Canvas canvas, int column, int row, int year,int month,int day) {
         //不实现，暂时不考虑何种表示方案
     }
 
     @Override
-    protected void drawText(Canvas canvas, int column, int row, int day) {
+    protected void drawText(Canvas canvas, int column, int row, int year,int month,int day) {
         paint.setTextSize(theme.sizeDay());
         float startX = columnSize * column + (columnSize - paint.measureText(day+""))/2;
         float startY = rowSize * row + rowSize/2 - (paint.ascent() + paint.descent())/2;
         paint.setStyle(Paint.Style.STROKE);
-        String des = iscalendarInfo(day);
+        String des = iscalendarInfo(year,month,day);
         if(day== selDay){//日期为选中的日期
             if(!TextUtils.isEmpty(des)){//desc不为空的时候
                 int dateY = (int) (startY - 10);

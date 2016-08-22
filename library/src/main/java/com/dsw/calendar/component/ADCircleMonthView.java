@@ -57,9 +57,9 @@ public class ADCircleMonthView extends MonthView {
     }
 
     @Override
-    protected void drawDecor(Canvas canvas, int column, int row, int day) {
+    protected void drawDecor(Canvas canvas, int column, int row, int year,int month,int day) {
         if(calendarInfos != null && calendarInfos.size() >0){
-            if(TextUtils.isEmpty(iscalendarInfo(day)))return;
+            if(TextUtils.isEmpty(iscalendarInfo(year,month,day)))return;
             paint.setColor(theme.colorDecor());
             paint.setStyle(Paint.Style.FILL);
             float circleX = (float) (columnSize * column +	columnSize*0.5);
@@ -72,11 +72,11 @@ public class ADCircleMonthView extends MonthView {
     }
 
     @Override
-    protected void drawRest(Canvas canvas, int column, int row, int day) {
+    protected void drawRest(Canvas canvas, int column, int row, int year,int month,int day) {
         if(calendarInfos != null && calendarInfos.size() > 0){
             float radius = columnSize < (rowSize * 0.6) ? columnSize / 2 : (float)(rowSize * 0.6) / 2;
             for(CalendarInfo calendarInfo : calendarInfos){
-                if(calendarInfo.day == day && calendarInfo.year == selYear && calendarInfo.month == selMonth + 1){
+                if(calendarInfo.day == day && calendarInfo.year == year && calendarInfo.month == month + 1){
                     float restX = columnSize * column + (columnSize + paint.measureText(day+""))/2;
                     float restY = rowSize * row + rowSize/2 - (paint.ascent() + paint.descent())/2;
                     if(day == selDay){
@@ -99,12 +99,12 @@ public class ADCircleMonthView extends MonthView {
     }
 
     @Override
-    protected void drawText(Canvas canvas, int column, int row, int day) {
+    protected void drawText(Canvas canvas, int column, int row, int year,int month,int day) {
         paint.setTextSize(theme.sizeDay());
         float startX = columnSize * column + (columnSize - paint.measureText(day+""))/2;
         float startY = rowSize * row + rowSize/2 - (paint.ascent() + paint.descent())/2;
         paint.setStyle(Paint.Style.STROKE);
-        String des = iscalendarInfo(day);
+        String des = iscalendarInfo(year,month,day);
         if(day== selDay){//日期为选中的日期
             if(!TextUtils.isEmpty(des)){//desc不为空的时候
                 int dateY = (int) startY;
