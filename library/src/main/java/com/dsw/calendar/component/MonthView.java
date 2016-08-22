@@ -278,12 +278,10 @@ public abstract class MonthView extends View {
         if(month == 0){//若果是1月份，则变成12月份
             year = selYear-1;
             month = 11;
-        }else if(DateUtils.getMonthDays(year, month) == day){
+        }else if(DateUtils.getMonthDays(year, month-1) < day){//向左滑动，当前月天数小于左边的
             //如果当前日期为该月最后一点，当向前推的时候，就需要改变选中的日期
             month = month-1;
-            if(day - DateUtils.getMonthDays(year, month) > 0){//向左滑动，当前月天数小于左边的
-                day = DateUtils.getMonthDays(year, month);
-            }
+            day = DateUtils.getMonthDays(year, month);
         }else{
             month = month-1;
         }
@@ -298,12 +296,10 @@ public abstract class MonthView extends View {
         if(month == 11){//若果是12月份，则变成1月份
             year = selYear + 1;
             month = 0;
-        }else if(DateUtils.getMonthDays(year, month) == day){
+        }else if(DateUtils.getMonthDays(year, month + 1) < day){//向右滑动，当前月天数小于左边的
             //如果当前日期为该月最后一点，当向前推的时候，就需要改变选中的日期
             month = month + 1;
-            if(day - DateUtils.getMonthDays(year, month) > 0){//向左滑动，当前月天数小于左边的
-                day = DateUtils.getMonthDays(year, month);
-            }
+            day = DateUtils.getMonthDays(year, month);
         }else{
             month = month + 1;
         }
