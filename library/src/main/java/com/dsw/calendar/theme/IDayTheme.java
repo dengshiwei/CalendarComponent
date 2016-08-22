@@ -94,7 +94,7 @@ public interface IDayTheme {
     public int colorLine();
 
     /**
-     * 滑动模式
+     * 滑动模式  0是渐变滑动方式，1是没有滑动方式
      * @return
      */
     public int smoothMode();
