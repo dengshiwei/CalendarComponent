@@ -17,6 +17,10 @@
 * 新增ADCircleCalendarView日历样式。
 * 新增平滑模式
 
+#####1.0.3 release
+* 修复滑动时左右两边月份显示事务的bug。
+* 修复月末滑动处理显示的bug。
+
 ## 项目集成
 #####方式一、直接引用项目library类库。
 
@@ -40,7 +44,7 @@
 * sizeDecor：装饰器大小
 * dateHeight：日期高度
 * colorLine：线条颜色
-* smoothMode：滑动模式
+* smoothMode：滑动模式，0为有滑动模式，1没有滑动效果。
 
 周的样式设置通过继承实现IWeekTheme。
 * colorTopLinen：顶部线颜色
