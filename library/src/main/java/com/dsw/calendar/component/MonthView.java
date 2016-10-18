@@ -216,6 +216,7 @@ public abstract class MonthView extends View {
 
     public void setCalendarInfos(List<CalendarInfo> calendarInfos) {
         this.calendarInfos = calendarInfos;
+        invalidate();
     }
 
     /**
