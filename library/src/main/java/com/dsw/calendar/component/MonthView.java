@@ -33,7 +33,7 @@ public abstract class MonthView extends View {
     private int leftYear,leftMonth,leftDay;
     private int rightYear,rightMonth,rightDay;
     protected int [][] daysString;
-    protected float columnSize,rowSize;
+    protected float columnSize,rowSize,baseRowSize;
     private int mTouchSlop;
     protected float density;
     private int indexMonth;
@@ -56,7 +56,7 @@ public abstract class MonthView extends View {
         setLeftDate();
         setRightDate();
         createTheme();
-        rowSize = theme == null ? 70 : theme.dateHeight();
+        baseRowSize = rowSize = theme == null ? 70 : theme.dateHeight();
         smoothMode = theme == null ? 0 : theme.smoothMode();
     }
 
@@ -69,7 +69,7 @@ public abstract class MonthView extends View {
         }
         width = widthSize;
         NUM_ROWS = 6; //本来是想根据每月的行数，动态改变控件高度，现在为了使滑动的左右两边效果相同，不适用getMonthRowNumber();
-        int heightSize = (int) (NUM_ROWS * rowSize);
+        int heightSize = (int) (NUM_ROWS * baseRowSize);
         setMeasuredDimension(widthSize, heightSize);
     }
 
