@@ -68,6 +68,8 @@ public class CircleCalendarView extends LinearLayout implements View.OnClickList
 
     public void setCalendarInfos(List<CalendarInfo> calendarInfos){
         circleMonthView.setCalendarInfos(calendarInfos);
+        textViewYear.setText(circleMonthView.getSelYear()+"年");
+        textViewMonth.setText((circleMonthView.getSelMonth() + 1)+"月");
     }
 
     public void setDayTheme(IDayTheme theme){

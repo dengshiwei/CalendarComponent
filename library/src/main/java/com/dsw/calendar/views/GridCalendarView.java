@@ -68,6 +68,8 @@ public class GridCalendarView extends LinearLayout implements View.OnClickListen
 
     public void setCalendarInfos(List<CalendarInfo> calendarInfos){
         gridMonthView.setCalendarInfos(calendarInfos);
+        textViewYear.setText(gridMonthView.getSelYear()+"年");
+        textViewMonth.setText((gridMonthView.getSelMonth() + 1)+"月");
     }
 
     public void setDayTheme(IDayTheme theme){
