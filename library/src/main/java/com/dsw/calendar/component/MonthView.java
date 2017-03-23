@@ -352,6 +352,7 @@ public abstract class MonthView extends View {
      */
     public void setTheme(IDayTheme theme) {
         this.theme = theme;
+        invalidate();
     }
 
     public int getSelYear() {
