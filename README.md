@@ -133,6 +133,9 @@ CalendarInfo类字段示意：
 
 ![adcirclecalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/ADCircleCalendarView_Mode1.gif?raw=true)
 
+##### 四、ADCircleCalendarView圆形日历控件
+![circlePointView](https://github.com/dengshiwei/CalendarComponent/blob/master/circleview.gif)
+
 ## 高级进阶
 该项目的核心是MonthView基类的实现，该基类中实现了多数的业务数据处理以及滑动效果的开发。如果你想使用定制一些日历效果，你可以继承MonthView，然后重写它的相关方法。
 
