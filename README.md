@@ -1,33 +1,33 @@
-#日历组件
+# 日历组件
 
 >日历组件（CalendarComponent）库的来源是[CalendarView](https://github.com/dengshiwei/CalendarView)。该控件的来由在[Android自定义控件之日历控件](http://blog.csdn.net/mr_dsw/article/details/48755993)中有介绍。CalendarView称不上一个组件，仅仅只是一个自定义的View，根据当时的项目定制需求进行开发，由于在平时也遇到了多种的日历样式，所以萌生了对日历控件进行重构的项目，所以诞生了这个库。
 
 ## 版本迭代
-#####1.0.0 release
+##### 1.0.0 release
 * 支持月份日期界面的样式自定制。
 * 支持星期的界面样式定制。
 * 支持日历事务的显示。
 * 支持班、休标志的绘制。
 * 支持左右滑动进行月份的切换。
 
-#####1.0.1 release
+##### 1.0.1 release
 * 新增CircleCalendarView圆形日历样式。
 
-#####1.0.2 release
+##### 1.0.2 release
 * 新增ADCircleCalendarView日历样式。
 * 新增平滑模式
 
-#####1.0.3 release
+##### 1.0.3 release
 * 修复滑动时左右两边月份显示事务的bug。
 * 修复月末滑动处理显示的bug。
 
 ## 项目集成
-#####方式一、直接引用项目library类库。
+##### 方式一、直接引用项目library类库。
 
 
 ## 简单使用
 
-####样式设置
+#### 样式设置
 日历界面的样式继承IDayTheme，通过实现IDayTheme中的方法来实现日历控件样式的更改。
 * colorSelectBG：选中日期的背景色
 * colorSelectDay：选中日期的颜色
@@ -61,7 +61,7 @@
     //设置星期的界面样式
     calendarView.setWeekTheme(new IWeekTheme() {);
 
-#####一、GridCalendarView，格网日历控件
+##### 一、GridCalendarView，格网日历控件
 当在你的项目中引入了CalendarComponent库后，你就可以像使用普通控件一样使用库中的日历控件。GridCalendarView是一个绘制有格网线的日历控件，支持日历的左右滑动以及手动翻页，支持日历的事务的显示、以及用户定制日历的主题样式。具体使用如下：
 
 	 GridCalendarView gridCalendarView = (GridCalendarView) findViewById(R.id.gridMonthView);
@@ -111,7 +111,7 @@ CalendarInfo类字段示意：
 
 ![gridcalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/GridCalendarView_Mode1.gif?raw=true)
 
-#####二、CircleCalendarView圆形日历控件
+##### 二、CircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式。
 
 滑动模式一：
@@ -122,7 +122,7 @@ CalendarInfo类字段示意：
 
 ![circlecalendarview_mode](https://github.com/dengshiwei/CalendarComponent/blob/master/gif/CircleCalendarView_Mode1.gif?raw=true)
 
-#####三、ADCircleCalendarView圆形日历控件
+##### 三、ADCircleCalendarView圆形日历控件
 使用方法同GridCalendarView，包括控件的回调函数、设置事务数据，都是一样的回调接口。该日历控件样式是圆形日历样式，类似于华为p6的系统日历。
 
 滑动模式一：
