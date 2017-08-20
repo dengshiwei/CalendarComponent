@@ -22,8 +22,18 @@
 * 修复月末滑动处理显示的bug。
 
 ## 项目集成
-##### 方式一、直接引用项目library类库。
+##### 方式一、Gradle直接引用项目library类库。
 
+	compile 'com.dsw.calendar:library:1.0.0'
+
+##### 方式二、Maven引用方式
+
+	<dependency>
+      <groupId>com.dsw.calendar</groupId>
+      <artifactId>library</artifactId>
+      <version>1.0.0</version>
+      <type>pom</type>
+    </dependency>
 
 ## 简单使用
 
