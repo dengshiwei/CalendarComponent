@@ -25,27 +25,28 @@ public class GridMonthView extends MonthView {
         int BottomY = getHeight();
         int rowCount = rowsCount;
         int columnCount = 7;
-        Path path;
+        Path path = new Path();
         float startX = 0;
+        float startY;
         float endX = rightX;
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(theme.colorLine());
         for(int row = 1; row <= rowCount ;row++){
-            float startY = row * rowSize;
-            path = new Path();
+            startY = row * rowSize;
             path.moveTo(startX, startY);
             path.lineTo(endX, startY);
             canvas.drawPath(path, paint);
+            path.reset();
         }
 
-        float startY = 0;
+        startY = 0;
         float endY = BottomY;
         for(int column =1; column < columnCount;column++){
             startX = column * columnSize;
-            path = new Path();
             path.moveTo(startX, startY);
             path.lineTo(startX, endY);
             canvas.drawPath(path, paint);
+            path.reset();
         }
     }
 
@@ -78,6 +79,7 @@ public class GridMonthView extends MonthView {
     @Override
     protected void drawRest(Canvas canvas,int column,int row,int year,int month,int day) {
         if(calendarInfos != null && calendarInfos.size() > 0){
+            Path path = new Path();
             for(CalendarInfo calendarInfo : calendarInfos){
                 if(calendarInfo.day == day && calendarInfo.year == year && calendarInfo.month == month + 1){
                     float pointX0 = columnSize * column + 1;
@@ -86,7 +88,6 @@ public class GridMonthView extends MonthView {
                     float pointY1 =  rowSize * row + 1;
                     float pointX2 = columnSize * column + 1;
                     float pointY2 = (float) (rowSize * row + rowSize*0.5);
-                    Path path = new Path();
                     path.moveTo(pointX0, pointY0);
                     path.lineTo(pointX1, pointY1);
                     path.lineTo(pointX2, pointY2);
@@ -107,6 +108,7 @@ public class GridMonthView extends MonthView {
                         paint.setColor(theme.colorSelectDay());
                         canvas.drawText("休", pointX0 + 5, pointY0 + paint.measureText("休"), paint);
                     }
+                    path.reset();
                 }
             }
         }
