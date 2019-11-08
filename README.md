@@ -1,10 +1,10 @@
 # 日历组件
-[![Latest Stable Version](https://poser.pugx.org/hanson/foundation-sdk/v/stable)](https://github.com/dengshiwei/CalendarComponent)
-[![Total Downloads](https://poser.pugx.org/hanson/foundation-sdk/downloads)](https://github.com/dengshiwei/CalendarComponent)
-[![Latest Unstable Version](https://poser.pugx.org/hanson/foundation-sdk/v/unstable)](https://github.com/dengshiwei/CalendarComponent)
-[![License](https://poser.pugx.org/hanson/foundation-sdk/license)](https://github.com/dengshiwei/CalendarComponent)
-[![Monthly Downloads](https://poser.pugx.org/hanson/foundation-sdk/d/monthly)](https://github.com/dengshiwei/CalendarComponent)
-[![Daily Downloads](https://poser.pugx.org/hanson/foundation-sdk/d/daily)](https://github.com/dengshiwei/CalendarComponent)
+[![Latest Stable Version](https://poser.pugx.org/dengshiwei/CalendarComponent/v/stable)](https://github.com/dengshiwei/CalendarComponent)
+[![Total Downloads](https://poser.pugx.org/dengshiwei/CalendarComponent/downloads)](https://github.com/dengshiwei/CalendarComponent)
+[![Latest Unstable Version](https://poser.pugx.org/dengshiwei/CalendarComponent/v/unstable)](https://github.com/dengshiwei/CalendarComponent)
+[![License](https://poser.pugx.org/dengshiwei/CalendarComponent/license)](https://github.com/dengshiwei/CalendarComponent)
+[![Monthly Downloads](https://poser.pugx.org/dengshiwei/CalendarComponent/d/monthly)](https://github.com/dengshiwei/CalendarComponent)
+[![Daily Downloads](https://poser.pugx.org/dengshiwei/CalendarComponent/d/daily)](https://github.com/dengshiwei/CalendarComponent)
 
 >日历组件（CalendarComponent）库的来源是[CalendarView](https://github.com/dengshiwei/CalendarView)。该控件的来由在[Android自定义控件之日历控件](http://blog.csdn.net/mr_dsw/article/details/48755993)中有介绍。CalendarView称不上一个组件，仅仅只是一个自定义的View，根据当时的项目定制需求进行开发，由于在平时也遇到了多种的日历样式，所以萌生了对日历控件进行重构的项目，所以诞生了这个库。
 
