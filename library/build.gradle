@@ -1,11 +1,12 @@
 apply plugin: 'com.android.library'
 
+version = "0.0.2"
 android {
     compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -18,7 +19,76 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:19.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+}
+
+
+apply plugin: 'maven'
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    dependsOn 'assembleRelease'
+    source = android.sourceSets.main.java.srcDirs +
+            'build/generated/not_namespaced_r_class_sources/release/generateReleaseRFile/out/com/sensorsdata/analytics/android/sdk/R.java'
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task makeJar(type: Copy) {
+    def jarName = 'SensorsAnalytics-Android-SDK-Release-' + version + '.jar'
+    delete 'build/libs/' + jarName
+    from('build/intermediates/packaged-classes/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename('classes.jar', jarName)
+}
+
+makeJar.dependsOn(build)
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+uploadArchives {
+    repositories {
+        def mavenUser = properties.getProperty("maven.user")
+        def mavenPassword = properties.getProperty("maven.password")
+        mavenDeployer {
+            repository(url: "https://oss.sonatype.org/content/repositories/releases/") {
+                authentication(userName: mavenUser, password: mavenPassword)
+            }
+
+            pom.groupId = 'com.github.dengshiwei'
+            pom.artifactId = 'MavenRelease'
+            pom.version = version
+
+            pom.project {
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
+        }
+    }
 }

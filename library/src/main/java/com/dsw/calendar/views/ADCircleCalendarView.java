@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dsw.calendar.R;
 import com.dsw.calendar.component.ADCircleMonthView;
-import com.dsw.calendar.component.CircleMonthView;
 import com.dsw.calendar.component.MonthView;
 import com.dsw.calendar.component.WeekView;
 import com.dsw.calendar.entity.CalendarInfo;
@@ -30,17 +28,17 @@ public class ADCircleCalendarView extends LinearLayout implements View.OnClickLi
         setOrientation(LinearLayout.VERTICAL);
         LayoutParams llParams =
                 new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        View view = LayoutInflater.from(context).inflate(R.layout.display_grid_date,null);
+        View view = LayoutInflater.from(context).inflate(com.dsw.calendar.R.layout.display_grid_date,null);
         weekView = new WeekView(context,null);
         circleMonthView = new ADCircleMonthView(context,null);
         addView(view,llParams);
         addView(weekView,llParams);
         addView(circleMonthView,llParams);
 
-        view.findViewById(R.id.left).setOnClickListener(this);
-        view.findViewById(R.id.right).setOnClickListener(this);
-        textViewYear = (TextView) view.findViewById(R.id.year);
-        textViewMonth = (TextView) view.findViewById(R.id.month);
+        view.findViewById(com.dsw.calendar.R.id.left).setOnClickListener(this);
+        view.findViewById(com.dsw.calendar.R.id.right).setOnClickListener(this);
+        textViewYear = (TextView) view.findViewById(com.dsw.calendar.R.id.year);
+        textViewMonth = (TextView) view.findViewById(com.dsw.calendar.R.id.month);
         circleMonthView.setMonthLisener(new MonthView.IMonthLisener() {
             @Override
             public void setTextMonth() {
@@ -84,7 +82,7 @@ public class ADCircleCalendarView extends LinearLayout implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.left){
+        if(id == com.dsw.calendar.R.id.left){
             circleMonthView.onLeftClick();
         }else{
             circleMonthView.onRightClick();
